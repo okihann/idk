@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # selinux.sh
-# SELinux rule injections for NTSYNC + Zenith cpufreq
+# SELinux rule injections for NTSYNC
 # Sourced by build.sh — must be called from inside $KSRC
 # Author: GrayRavens Team
 
@@ -34,16 +34,4 @@ ksu_allow(db, "untrusted_app", "gpu_device", "chr_file", "write");\
 ksu_allow(db, "untrusted_app", "gpu_device", "chr_file", "open");\
 ksu_allow(db, "untrusted_app", "gpu_device", "chr_file", "ioctl");\
 ksu_allow(db, "untrusted_app", "gpu_device", "chr_file", "map");\
-'
-
-# ---------------------------------------------------------------------------
-# Zenith - tunable dir under /sys/devices/system/cpu/cpufreq (sysfs_devices_system_cpu)
-# ---------------------------------------------------------------------------
-inject_selinux "Zenith cpufreq sysfs" \
-' ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "dir", "search");\
-ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "dir", "getattr");\
-ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "file", "read");\
-ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "file", "write");\
-ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "file", "open");\
-ksu_allow(db, "kernel", "sysfs_devices_system_cpu", "file", "getattr");\
 '
