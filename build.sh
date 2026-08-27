@@ -12,10 +12,7 @@ export ARCH=arm64
 export LLVM=1
 export LLVM_IAS=1
 export KBUILD_BUILD_USER="GrayRavens-Team"
-<<<<<<< HEAD
-=======
 export KBUILD_BUILD_HOST="GrayRavens-Zenithed-V7-Hoshi"
->>>>>>> cc02bb6 (build.sh: rebrand V7-Hoshi)
 
 # ── Clang toolchain ──────────────────────────────────────────────────────────
 if [ -z "$CLANG_PATH" ]; then
@@ -79,7 +76,7 @@ echo "=== Post-build verification ==="
 
 echo "--- Compiler used (from vmlinux .comment) ---"
 readelf -p .comment out/vmlinux 2>/dev/null \
-    | grep -v "^$\|String dump" || echo "Could not read .comment"
+    | grep -v "^\$\|String dump" || echo "Could not read .comment"
 
 echo "--- LTO config check ---"
 grep -E "CONFIG_LTO|CONFIG_THINLTO" out/.config || echo "No LTO configs found"
