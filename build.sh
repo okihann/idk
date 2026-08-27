@@ -12,7 +12,7 @@ export ARCH=arm64
 export LLVM=1
 export LLVM_IAS=1
 export KBUILD_BUILD_USER="GrayRavens-Team"
-export KBUILD_BUILD_HOST="GrayRavens-Zenithed-V7-Hoshi"
+export KBUILD_BUILD_HOST="GrayRavens-Zenithed"
 
 # ── Clang toolchain ──────────────────────────────────────────────────────────
 if [ -z "$CLANG_PATH" ]; then
@@ -54,8 +54,10 @@ else
 fi
 
 # ── Generate kernel config ───────────────────────────────────────────────────
+# CROSS_COMPILE=aarch64-linux-gnu- → kernel Makefile sets --target=aarch64-linux-gnu
+# Requires gcc-aarch64-linux-gnu installed for the sysroot at /usr/aarch64-linux-gnu/
 echo "Generating GKI defconfig..."
-make O=out gki_defconfig
+make O=out HOSTCC=gcc CROSS_COMPILE=aarch64-linux-gnu- gki_defconfig
 
 # ── Configure ThinLTO ────────────────────────────────────────────────────────
 echo "Configuring ThinLTO..."
@@ -68,7 +70,7 @@ scripts/config --file out/.config \
 
 # ── Build kernel image ───────────────────────────────────────────────────────
 echo "Building kernel image..."
-make -j$(nproc --all) O=out Image
+make -j$(nproc --all) O=out HOSTCC=gcc CROSS_COMPILE=aarch64-linux-gnu- Image
 
 # ── Post-build vmlinux verification ─────────────────────────────────────────
 echo ""
@@ -76,7 +78,7 @@ echo "=== Post-build verification ==="
 
 echo "--- Compiler used (from vmlinux .comment) ---"
 readelf -p .comment out/vmlinux 2>/dev/null \
-    | grep -v "^\$\|String dump" || echo "Could not read .comment"
+    | grep -v "^$\|String dump" || echo "Could not read .comment"
 
 echo "--- LTO config check ---"
 grep -E "CONFIG_LTO|CONFIG_THINLTO" out/.config || echo "No LTO configs found"
