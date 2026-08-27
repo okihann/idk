@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # selinux.sh
-# SELinux rule injections for GrayRavens drivers + NTSYNC
+# SELinux rule injections for NTSYNC + Zenith cpufreq
 # Sourced by build.sh — must be called from inside $KSRC
 # Author: GrayRavens Team
 
