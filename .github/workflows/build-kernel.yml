@@ -324,24 +324,22 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          MSG="New GitHub Actions run of ${{ github.repository }} is complete"
+          MSG="🪡 GrayRavens Build Complete"
           MSG="$MSG\n#GrayRavens"
           MSG="$MSG\n"
-          MSG="$MSG\nCreation time: ${{ github.event.workflow_run.created_at || github.event.repository.updated_at }}"
-          MSG="$MSG\nBranch: ${{ inputs.kernel_ref }} (https://github.com/${{ inputs.kernel_repo }}/tree/${{ inputs.kernel_ref }})"
-          MSG="$MSG\nKernel commit: ${{ steps.kernel_commit.outputs.sha }} (${{ steps.kernel_commit.outputs.msg }})"
-          MSG="$MSG\n(${{ steps.kernel_commit.outputs.url }})"
-          MSG="$MSG\nKernel name: ${{ inputs.kernel_name }}"
-          MSG="$MSG\nClang: ${{ inputs.clang_variant }}"
-          MSG="$MSG\nKernelSU: ${{ inputs.ksu_variant }}"
-          MSG="$MSG\nWorkflow: Build kernel (${{ steps.meta.outputs.run_url }})"
-          MSG="$MSG\nCost time: ${{ steps.meta.outputs.duration }}"
-          MSG="$MSG\nStatus: ${{ steps.meta.outputs.status }}"
+          MSG="$MSG\n📅 Created: ${{ github.event.workflow_run.created_at || github.event.repository.updated_at }}"
+          MSG="$MSG\n🔧 Kernel: ${{ inputs.kernel_name }}"
+          MSG="$MSG\n📦 Repo: ${{ inputs.kernel_repo }}"
+          MSG="$MSG\n🌿 Branch: ${{ inputs.kernel_ref }}"
+          MSG="$MSG\n📝 Commit: ${{ steps.kernel_commit.outputs.sha }} - ${{ steps.kernel_commit.outputs.msg }}"
+          MSG="$MSG\n🔗 ${{ steps.kernel_commit.outputs.url }}"
+          MSG="$MSG\n⏱ Duration: ${{ steps.meta.outputs.duration }}"
+          MSG="$MSG\n📊 Status: ${{ steps.meta.outputs.status }}"
           MSG="$MSG\n"
-          MSG="$MSG\nArtifacts:"
+          MSG="$MSG\n📦 Artifacts:"
           MSG="$MSG\n${{ steps.artifacts.outputs.list }}"
           MSG="$MSG\n"
-          MSG="$MSG\nSummary: ${{ steps.meta.outputs.run_url }}"
+          MSG="$MSG\n🔗 Summary: ${{ steps.meta.outputs.run_url }}"
           ESCAPED=$(echo -e "$MSG" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))")
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
             -H "Content-Type: application/json" \
