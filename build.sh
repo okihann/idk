@@ -68,6 +68,11 @@ scripts/config --file out/.config \
     -d LTO_CLANG_FULL \
     -e THINLTO
 
+# Configure LXC Patches
+cp ../lxc.config ./lxc.config
+sed -i 's/check_defconfig//g' build.config.gki
+ARCH=arm64 scripts/kconfig/merge_config.sh arch/arm64/configs/gki_defconfig ./lxc.config
+
 # ── Build kernel image ───────────────────────────────────────────────────────
 echo "Building kernel image..."
 make -j$(nproc --all) O=out HOSTCC=gcc CROSS_COMPILE=aarch64-linux-gnu- Image
