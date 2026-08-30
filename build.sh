@@ -60,18 +60,18 @@ echo "Generating GKI defconfig..."
 make O=out HOSTCC=gcc CROSS_COMPILE=aarch64-linux-gnu- gki_defconfig
 
 # ── Configure LXC Patches ────────────────────────────────────────────────────
-echo "Applying LXC configuration patches..."
-if [ -f "../lxc.config" ]; then
-    cp ../lxc.config ./lxc.config
-fi
+# echo "Applying LXC configuration patches..."
+# if [ -f "../lxc.config" ]; then
+#     cp ../lxc.config ./lxc.config
+# fi
 
-if [ -f "build.config.gki" ]; then
-    sed -i 's/check_defconfig//g' build.config.gki
-fi
+# if [ -f "build.config.gki" ]; then
+#     sed -i 's/check_defconfig//g' build.config.gki
+# fi
 
-if [ -f "./lxc.config" ]; then
-    ARCH=arm64 scripts/kconfig/merge_config.sh -O out out/.config ./lxc.config
-fi
+# if [ -f "./lxc.config" ]; then
+#     ARCH=arm64 scripts/kconfig/merge_config.sh -O out out/.config ./lxc.config
+# fi
 
 # ── Configure ThinLTO ────────────────────────────────────────────────────────
 echo "Configuring ThinLTO..."
